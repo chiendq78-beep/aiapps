@@ -1,0 +1,6 @@
+{
+  "name": "App Portfolio & Community Hub",
+  "description": "Cổng thông tin quảng bá, bình chọn ứng dụng, quản lý phiên bản, đóng góp ý tưởng, báo lỗi và nhận thông báo cập nhật cho hệ sinh thái ứng dụng.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "AppIdea": {
+      "title": "AppIdea",
+      "description": "Information about an ecosystem application",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "platforms": { "type": "array" },
+        "status": { "type": "string" },
+        "techStack": { "type": "array" },
+        "currentVersion": { "type": "string" },
+        "changelogs": { "type": "array" },
+        "voters": { "type": "array" },
+        "rating": { "type": "number" },
+        "ratingCount": { "type": "number" },
+        "sourceCodeUrl": { "type": "string" },
+        "appUrl": { "type": "string" }
+      },
+      "required": ["id", "name", "description", "icon", "platforms", "status", "currentVersion", "rating", "ratingCount"]
+    },
+    "CommunitySuggestion": {
+      "title": "CommunitySuggestion",
+      "description": "Suggestions made by the community",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "suggestedBy": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "votes": { "type": "number" },
+        "votedEmails": { "type": "array" },
+        "category": { "type": "string" },
+        "targetAppId": { "type": "string" }
+      },
+      "required": ["id", "title", "description", "suggestedBy", "createdAt", "votes", "votedEmails", "category"]
+    },
+    "BugReport": {
+      "title": "BugReport",
+      "description": "Bug report submitted by a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "appId": { "type": "string" },
+        "appName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "severity": { "type": "string" },
+        "reporterEmail": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "appId", "appName", "title", "description", "severity", "reporterEmail", "createdAt", "status"]
+    }
+  },
+  "firestore": {
+    "apps/{appId}": {
+      "schema": "AppIdea",
+      "description": "Registered applications in the portfolio"
+    },
+    "suggestions/{suggestionId}": {
+      "schema": "CommunitySuggestion",
+      "description": "Community ideas, features, and app suggestions"
+    },
+    "bugs/{bugId}": {
+      "schema": "BugReport",
+      "description": "Bug reports filed by users"
+    }
+  }
+}
