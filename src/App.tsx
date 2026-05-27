@@ -10,6 +10,7 @@ import CommunityBoard from './components/CommunityBoard';
 import BugTracker from './components/BugTracker';
 import NotificationCenter from './components/NotificationCenter';
 import LucideIcon from './components/LucideIcon';
+import Dashboard from './components/Dashboard';
 import { getFirestoreDB, isFirebaseEnabled } from './firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
@@ -459,7 +460,7 @@ export default function App() {
   }, [activeDbId]);
 
   // Active view filters
-  const [currentTab, setCurrentTab] = useState<'portfolio' | 'suggestions' | 'bugs' | 'simulator'>('portfolio');
+  const [currentTab, setCurrentTab] = useState<'portfolio' | 'suggestions' | 'bugs' | 'simulator' | 'dashboard'>('portfolio');
   const [searchQuery, setSearchQuery] = useState('');
   const [platformFilter, setPlatformFilter] = useState<'All' | Platform>('All');
   const [statusFilter, setStatusFilter] = useState<string>('All');
@@ -1170,14 +1171,19 @@ export default function App() {
         {/* --- PORTAL MAIN APPLICATION ROOT --- */}
         <header className={`border-b ${theme === 'dark' ? 'border-sky-500/10 bg-slate-950/40 text-sky-100 shadow-[0_4px_30px_rgba(0,0,0,0.2)]' : 'border-sky-200/50 bg-sky-100/35 text-slate-800 shadow-[0_4px_30px_rgba(0,0,0,0.02)]'} backdrop-blur-xl sticky top-0 z-30 px-4 md:px-8 py-3.5 flex items-center justify-between select-none`}>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-600 to-indigo-500 p-0.5 flex items-center justify-center shadow-lg shadow-sky-500/20 animate-pulse">
-              <LucideIcon name="Sparkles" className="text-white" size={16} />
+            <div className="w-8 h-8 rounded-lg overflow-hidden border border-sky-400/20 shadow-lg shadow-sky-500/10 flex items-center justify-center relative group">
+              <img 
+                src="/favicon.png" 
+                alt="AI Apps Logo" 
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                referrerPolicy="no-referrer" 
+              />
             </div>
             <div>
               <h1 className={`text-base md:text-lg tracking-widest font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`} style={{ fontFamily: 'Georgia, serif' }}>
                 AI <span className="font-extrabold text-sky-600 drop-shadow-sm">APPs</span>
               </h1>
-              <p className={`text-[9px] ${theme === 'dark' ? 'text-sky-300/50' : 'text-sky-600/70'} font-mono tracking-wider uppercase font-bold`}>Cùng AI - Xây tương lai</p>
+              <p className={`text-[9px] ${theme === 'dark' ? 'text-amber-400/90' : 'text-amber-600'} font-mono tracking-wider uppercase font-bold`}>Cùng AI - Xây tương lai</p>
             </div>
           </div>
 
@@ -1384,6 +1390,23 @@ export default function App() {
 
               <button
                 onClick={() => {
+                  setCurrentTab('dashboard');
+                  setActiveSimulatorApp(null);
+                }}
+                className={`py-2.5 px-4 border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+                  currentTab === 'dashboard' 
+                    ? 'border-sky-500 text-sky-500 font-bold' 
+                    : theme === 'dark'
+                      ? 'border-transparent text-sky-350 hover:text-white'
+                      : 'border-transparent text-sky-700 hover:text-sky-950'
+                }`}
+              >
+                <LucideIcon name="Activity" size={14} />
+                <span>Bảng điều khiển</span>
+              </button>
+
+              <button
+                onClick={() => {
                   setCurrentTab('simulator');
                 }}
                 className={`py-2.5 px-4 border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
@@ -1449,6 +1472,16 @@ export default function App() {
 
         {/* --- MAIN PAGE VIEW CONTENT SWITCHER --- */}
         <main className="flex-1 max-w-6xl w-full mx-auto px-4 md:px-8 py-8 overflow-y-auto">
+          
+          {/* TAB 0: DASHBOARD ANALYSIS & RECHARTS */}
+          {currentTab === 'dashboard' && (
+            <Dashboard 
+              apps={apps}
+              suggestions={suggestions}
+              bugs={bugs}
+              theme={theme}
+            />
+          )}
           
           {/* TAB 1: PORTFOLIO SHOWCASE */}
           {currentTab === 'portfolio' && (
